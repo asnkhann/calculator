@@ -8,9 +8,9 @@ h2 {
 }
 
 table {
-    width: 50%; /* Reduced width to 50% for a more compact appearance */
+    width: 50%; 
     border-collapse: collapse;
-    margin: 20px auto; /* Center the table */
+    margin: 20px auto; 
 }
 
 table, th, td {
@@ -20,34 +20,33 @@ table, th, td {
 th {
     background-color: #b30000;
     color: white;
-    padding: 15px; /* Increased padding for header cells to increase height */
+    padding: 15px; 
     text-align: left;
 }
 
 td {
-    padding: 10px; /* Increased padding for data cells */
+    padding: 10px; 
     text-align: left;
 }
 
 input[type="text"] {
-    width: 40px; /* Further reduced width for hour input */
-    height: 30px; /* Increased height for input fields */
+    width: 40px; 
+    height: 30px; 
     margin-right: 5px;
 }
 
 .break-input {
-    width: 50px; /* Adjusted width for break input */
-    height: 30px; /* Increased height for break input */
+    width: 50px; 
+    height: 30px; 
 }
 
-/* Match the height of AM/PM select box with input fields */
 select {
-    height: 30px; /* Set height for the select box */
+    height: 30px; 
 }
 
 .controls {
     margin-top: 20px;
-    text-align: center; /* Center the buttons */
+    text-align: center; 
 }
 
 #totalHours {
@@ -56,8 +55,8 @@ select {
 }
 
 button {
-    padding: 8px 16px; /* Button padding */
-    font-size: 14px; /* Font size for buttons */
+    padding: 8px 16px; 
+    font-size: 14px; 
     margin-right: 10px;
     cursor: pointer;
 }
@@ -87,32 +86,22 @@ button:hover {
     font-weight: bold;
 }
 
-/* Styles for Name and Date input fields */
+
 input#name, input#dates {
-    width: 250px; /* Increased size for Name and Date input boxes */
-    height: 30px; /* Increased height for input fields */
-    padding: 5px; /* Added padding for better usability */
+    width: 250px; 
+    height: 30px; 
+    padding: 5px; 
 }
 
-/* Print styles */
+/* Print styles 
 @media print {
     body {
-        font-size: 12pt; /* Adjust font size for printing */
-        margin: 0; /* Remove margins for printed version */
-        padding: 0; /* Remove padding for printed version */
+        font-size: 12pt; 
     }
     table {
-        width: 100%; /* Ensure table takes full width in print */
-        margin: 0; /* Center the table */
-    }
-    th, td {
-        padding: 10px; /* Adjust padding for print */
+        margin: 0; 
     }
     .controls {
-        display: none; /* Hide controls during printing */
-    }
-    @page {
-        size: A4 landscape; /* Set the page size and orientation */
-        margin: 10mm; /* Set page margins */
+        display: none; 
     }
 }
