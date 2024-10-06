@@ -8,7 +8,7 @@ h2 {
 }
 
 table {
-    width: 50%; /* Default width for larger screens */
+    width: 50%; /* Reduced width to 50% for a more compact appearance */
     border-collapse: collapse;
     margin: 20px auto; /* Center the table */
 }
@@ -40,6 +40,7 @@ input[type="text"] {
     height: 30px; /* Increased height for break input */
 }
 
+/* Match the height of AM/PM select box with input fields */
 select {
     height: 30px; /* Set height for the select box */
 }
@@ -58,6 +59,7 @@ button {
     padding: 8px 16px; /* Button padding */
     font-size: 14px; /* Font size for buttons */
     margin-right: 10px;
+    cursor: pointer;
 }
 
 #calculateBtn {
@@ -85,32 +87,11 @@ button:hover {
     font-weight: bold;
 }
 
+/* Styles for Name and Date input fields */
 input#name, input#dates {
     width: 250px; /* Increased size for Name and Date input boxes */
     height: 30px; /* Increased height for input fields */
     padding: 5px; /* Added padding for better usability */
-}
-
-/* Styles for smaller screens (e.g., mobile devices) */
-@media (max-width: 600px) {
-    table {
-        width: 90%; /* Increase width for smaller screens */
-    }
-
-    input#name, input#dates {
-        width: 100%; /* Full width for input boxes */
-    }
-
-    button {
-        width: 100%; /* Full width for buttons on smaller screens */
-        margin: 5px 0; /* Adjust margin for buttons */
-    }
-
-    .controls {
-        flex-direction: column; /* Stack buttons vertically */
-    }
-
-    /* Additional styles for smaller screens */
 }
 
 /* Print styles */
