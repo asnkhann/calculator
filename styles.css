@@ -97,12 +97,32 @@ input#name, input#dates {
 /* Print styles */
 @media print {
     body {
-        font-size: 12pt; /* Adjust font size for printing */
+        font-size: 12pt; /* Adjust font size for print */
+        margin: 0; /* Remove margin for printed version */
+        padding: 0; /* Remove padding */
     }
+    
     table {
+        width: 100%; /* Ensure table takes the full width */
         margin: 0; /* Remove margins for printed version */
     }
+
+    th, td {
+        padding: 10px; /* Set consistent padding for table cells */
+        border: 1px solid #b30000; /* Ensure borders are visible */
+    }
+
+    /* Hide controls when printing */
     .controls {
-        display: none; /* Hide controls during printing */
+        display: none; 
+    }
+
+    /* Hide the toggle button when printing */
+    .toggle-container {
+        display: none;
+    }
+
+    #totalHoursDisplay {
+        display: none; /* Optionally hide the total hours display */
     }
 }
