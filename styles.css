@@ -111,4 +111,8 @@ input#name, input#dates {
     .controls {
         display: none; /* Hide controls during printing */
     }
+    @page {
+        size: A4 landscape; /* Set the page size and orientation */
+        margin: 10mm; /* Set page margins */
+    }
 }
