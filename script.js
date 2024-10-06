@@ -1,4 +1,3 @@
-// JavaScript code remains unchanged
 document.addEventListener("DOMContentLoaded", function () {
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const tableBody = document.getElementById('timeTableBody');
@@ -10,8 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let roundingEnabled = false; // Rounding is disabled by default
 
-    // Create table rows dynamically for each day
-    days.forEach(day => {
+       days.forEach(day => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${day}</td>
@@ -40,8 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         tableBody.appendChild(row);
     });
 
-    // Function to convert time to 24-hour format
-    function convertTo24HourFormat(hour, minute, period) {
+     function convertTo24HourFormat(hour, minute, period) {
         if (period === "PM" && hour !== 12) {
             hour += 12;
         } else if (period === "AM" && hour === 12) {
@@ -50,24 +47,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return hour + minute / 60;
     }
 
-    // Function to round to the nearest quarter hour (15 minutes)
     function roundToNearestQuarterHour(hoursWorked) {
-        const minutes = (hoursWorked * 60); // convert hours to minutes
-        const roundedMinutes = Math.round(minutes / 15) * 15; // round to nearest 15 minutes
-        return roundedMinutes / 60; // convert back to hours
+        const minutes = (hoursWorked * 60); 
+        const roundedMinutes = Math.round(minutes / 15) * 15; 
+        return roundedMinutes / 60; 
     }
 
-    // Toggle button functionality
+    
     roundToggle.addEventListener("click", function () {
         roundingEnabled = !roundingEnabled;
         roundToggle.textContent = roundingEnabled ? "Enabled Rounding" : "Disabled Rounding";
         roundMessage.textContent = roundingEnabled ? "Rounding Calculation is Enabled" : "Rounding Calculation is Disabled";
 
-        // Recalculate total hours when toggling
+     
         calculateHours();
     });
 
-    // Function to calculate hours and update totals
     function calculateHours() {
         let totalHours = 0;
         const rows = tableBody.querySelectorAll('tr');
@@ -84,16 +79,15 @@ document.addEventListener("DOMContentLoaded", function () {
             const breakHour = parseInt(row.querySelector('.break-input').value || 0);
             const breakMinute = parseInt(row.querySelectorAll('.minute-input')[2].value || 0);
 
-            // Convert times to 24-hour format
+          
             const startTime = convertTo24HourFormat(startHour, startMinute, startPeriod);
             const endTime = convertTo24HourFormat(endHour, endMinute, endPeriod);
 
             const breakTime = breakHour + breakMinute / 60;
 
             let hoursWorked = (endTime - startTime) - breakTime;
-            hoursWorked = hoursWorked > 0 ? hoursWorked : 0;  // Ensure it isn't negative
+            hoursWorked = hoursWorked > 0 ? hoursWorked : 0; 
 
-            // Apply rounding if enabled
             if (roundingEnabled) {
                 hoursWorked = roundToNearestQuarterHour(hoursWorked);
             }
@@ -105,13 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
         totalHoursDisplay.textContent = totalHours.toFixed(2);
     }
 
-    // Calculation button event listener
     calculateBtn.addEventListener("click", calculateHours);
 
-    // Input change event listener to update total hours
+
     tableBody.addEventListener('input', calculateHours);
 
-    // Clear button event listener
+   
     clearBtn.addEventListener("click", function () {
         const inputs = document.querySelectorAll('input');
         inputs.forEach(input => {
@@ -126,5 +119,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function printPage() {
-    window.print(); // This will open the print dialog
+    window.print(); 
 }
