@@ -98,16 +98,17 @@ input#name, input#dates {
 @media print {
     body {
         font-size: 12pt; /* Adjust font size for printing */
-        margin: 0; /* Remove margin for print */
+        margin: 0; /* Remove margins for printed version */
+        padding: 0; /* Remove padding for printed version */
     }
     table {
-        width: 100%; /* Use full width for the table when printing */
-        margin: 0; /* Remove margins for printed version */
+        width: 100%; /* Ensure table takes full width in print */
+        margin: 0; /* Center the table */
+    }
+    th, td {
+        padding: 10px; /* Adjust padding for print */
     }
     .controls {
-        display: inline; /* Show controls during printing */
-    }
-    h2 {
-        page-break-after: avoid; /* Avoid page break after header */
+        display: none; /* Hide controls during printing */
     }
 }
