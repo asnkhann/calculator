@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h2>Time Calculator</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
+    
+    <label for="dates">Dates:</label>
+    <input type="text" id="dates" name="dates">
+
+    <!-- Toggle button for rounding feature -->
+    <div class="toggle-container">
+        <label for="roundToggle">Enable Rounding:</label>
+        <button id="roundToggle">Disabled Rounding</button>
+        <p id="roundMessage">Rounding Calculation is Disabled</p>
+    </div>
+
+    <table id="timeTable">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Starting Time</th>
+                <th>Ending Time</th>
+                <th>Break Deduction</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="timeTableBody">
+            <!-- Rows will be dynamically created by JavaScript -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right;"><strong>Total Hours:</strong></td>
+                <td><span id="totalHours">0.00</span></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="controls">
+        <button id="calculateBtn">Calculate</button>
+        <button id="clearBtn">Clear All</button>
+        <button id="printBtn" onclick="printPage()">PRINT</button> <!-- Added Print Button -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
