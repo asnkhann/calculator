@@ -98,6 +98,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const breakHour = parseInt(row.querySelector('.break-input').value || 0);
             const breakMinute = parseInt(row.querySelectorAll('.minute-input')[2].value || 0);
 
+            // Ensure both start and end times are provided before calculating
+            if (!startHour || !endHour) {
+                row.querySelector('.day-total').textContent = '0.00';
+                return; // Skip calculation if start or end time is not provided
+            }
+
             // Convert times to 24-hour format
             let startTime = convertTo24HourFormat(startHour, startMinute, startPeriod);
             let endTime = convertTo24HourFormat(endHour, endMinute, endPeriod);
