@@ -31,6 +31,13 @@ td {
     text-align: left;
 }
 
+/* Center the text inside hour and minute input fields */
+input.hour-input,
+input.minute-input,
+.break-input {
+    text-align: center; /* Center the text */
+}
+
 input[type="text"], input[type="number"] {
     width: 40px;
     height: 30px;
@@ -94,6 +101,24 @@ input#name, input#dates {
     width: 250px;
     height: 30px;
     padding: 5px;
+}
+
+/* Remove spinner arrows from input[type="number"] in all browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+}
+
+/* Print styles */
+@media print {
+    .conversion-container {
+        display: none; /* Hide conversion calculator during printing */
+    }
 }
 
 /* Print styles */
