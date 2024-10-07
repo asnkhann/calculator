@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${day}</td>
             <td>
                 <input type="text" class="hour-input" placeholder="" maxlength="2"> : 
-                <input type="text" class="minute-input" value="00" maxlength="2"> 
+                <input type="text" class="minute-input" value="00" maxlength="2" placeholder="00">  <!-- Default to 00 -->
                 <select>
                     <option>AM</option>
                     <option>PM</option>
@@ -24,20 +24,23 @@ document.addEventListener("DOMContentLoaded", function () {
             </td>
             <td>
                 <input type="text" class="hour-input" placeholder="" maxlength="2"> : 
-                <input type="text" class="minute-input" value="00" maxlength="2"> 
+                <input type="text" class="minute-input" value="00" maxlength="2" placeholder="00">  <!-- Default to 00 -->
                 <select>
                     <option>AM</option>
                     <option>PM</option>
                 </select>
             </td>
             <td>
-                <input type="text" class="break-input" value=""> : 
-                <input type="text" class="minute-input" value="00" maxlength="2">
+                <input type="text" class="break-input" value="0" placeholder="0"> : 
+                <input type="text" class="minute-input" value="00" maxlength="2" placeholder="00">  <!-- Default to 00 -->
             </td>
             <td><span class="day-total">0.00</span></td>
         `;
         tableBody.appendChild(row);
     });
+
+    // Load data from local storage if available
+    loadStoredData();  // Load the saved data
 
     // Restrict hour input to 1-12 and minute input to 0-59
     tableBody.addEventListener('input', function (e) {
@@ -52,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.target.value = '';
             }
         }
+
+        // Save updated data to local storage
+        saveData();  // Save data on input change
     });
 
     // Function to convert time to 24-hour format
@@ -130,6 +136,63 @@ document.addEventListener("DOMContentLoaded", function () {
         totalHoursDisplay.textContent = totalHours.toFixed(2);
     }
 
+    // Save data to local storage
+    function saveData() {
+        const rows = tableBody.querySelectorAll('tr');
+        const data = [];
+
+        rows.forEach((row) => {
+            const startHour = row.querySelectorAll('.hour-input')[0].value;
+            const startMinute = row.querySelectorAll('.minute-input')[0].value;
+            const startPeriod = row.querySelectorAll('select')[0].value;
+
+            const endHour = row.querySelectorAll('.hour-input')[1].value;
+            const endMinute = row.querySelectorAll('.minute-input')[1].value;
+            const endPeriod = row.querySelectorAll('select')[1].value;
+
+            const breakHour = row.querySelector('.break-input').value;
+            const breakMinute = row.querySelectorAll('.minute-input')[2].value;
+
+            data.push({
+                startHour,
+                startMinute,
+                startPeriod,
+                endHour,
+                endMinute,
+                endPeriod,
+                breakHour,
+                breakMinute
+            });
+        });
+
+        localStorage.setItem('timeCalculatorData', JSON.stringify(data));  // Save data to local storage
+    }
+
+    // Load data from local storage
+    function loadStoredData() {
+        const storedData = localStorage.getItem('timeCalculatorData');
+        if (storedData) {
+            const data = JSON.parse(storedData);
+            const rows = tableBody.querySelectorAll('tr');
+
+            data.forEach((dayData, index) => {
+                const row = rows[index];
+                row.querySelectorAll('.hour-input')[0].value = dayData.startHour;
+                row.querySelectorAll('.minute-input')[0].value = dayData.startMinute;
+                row.querySelectorAll('select')[0].value = dayData.startPeriod;
+
+                row.querySelectorAll('.hour-input')[1].value = dayData.endHour;
+                row.querySelectorAll('.minute-input')[1].value = dayData.endMinute;
+                row.querySelectorAll('select')[1].value = dayData.endPeriod;
+
+                row.querySelector('.break-input').value = dayData.breakHour;
+                row.querySelectorAll('.minute-input')[2].value = dayData.breakMinute;
+            });
+
+            calculateHours(); // Recalculate hours based on the stored data
+        }
+    }
+
     // Calculation button event listener
     calculateBtn.addEventListener("click", calculateHours);
 
@@ -147,6 +210,8 @@ document.addEventListener("DOMContentLoaded", function () {
             total.textContent = '0.00';
         });
         totalHoursDisplay.textContent = '0.00';
+
+        localStorage.removeItem('timeCalculatorData'); // Clear data from local storage
     });
 });
 
