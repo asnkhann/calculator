@@ -1,4 +1,3 @@
-/* General styles for the page */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -8,7 +7,6 @@ h2 {
     color: #b30000;
 }
 
-/* Table styling */
 table {
     width: 50%;
     border-collapse: collapse;
@@ -31,11 +29,10 @@ td {
     text-align: left;
 }
 
-/* Center the text inside hour and minute input fields */
 input.hour-input,
 input.minute-input,
 .break-input {
-    text-align: center; /* Center the text */
+    text-align: center; 
 }
 
 input[type="text"], input[type="number"] {
@@ -53,7 +50,6 @@ select {
     height: 30px;
 }
 
-/* Button controls */
 .controls {
     margin-top: 20px;
     text-align: center;
@@ -96,14 +92,12 @@ button:hover {
     font-weight: bold;
 }
 
-/* Styles for Name and Date input fields */
 input#name, input#dates {
     width: 250px;
     height: 30px;
     padding: 5px;
 }
 
-/* Remove spinner arrows from input[type="number"] in all browsers */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -111,43 +105,40 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
-    -moz-appearance: textfield; /* For Firefox */
+    -moz-appearance: textfield;
 }
 
-/* Print styles */
 @media print {
     .conversion-container {
-        display: none; /* Hide conversion calculator during printing */
+        display: none; 
     }
 }
 
-/* Print styles */
 @media print {
     body {
         font-size: 12pt;
-        margin: 0; /* Ensure margins are zero to keep the layout consistent */
+        margin: 0; 
     }
 
     table {
-        width: 100%; /* Expand the table to use the full width of the page */
-        margin: 0; /* Remove margins for the printed version */
+        width: 100%;
+        margin: 0; 
     }
 
     .controls {
-        display: none; /* Hide buttons during printing */
+        display: none; 
     }
 
     input, select {
-        border: none; /* Remove input borders for clean printing */
+        border: none; 
         background: none;
     }
 
     th, td {
-        border: 1px solid #000; /* Change border color to black for printing */
+        border: 1px solid #000; 
     }
 
-    /* Ensure the layout remains centered */
-    table, h2, .toggle-container {
+       table, h2, .toggle-container {
         page-break-inside: avoid;
     }
 }
