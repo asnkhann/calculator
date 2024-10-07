@@ -1,4 +1,3 @@
-// JavaScript code remains unchanged
 document.addEventListener("DOMContentLoaded", function () {
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const tableBody = document.getElementById('timeTableBody');
