@@ -1,3 +1,4 @@
+/* General styles for the page */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -7,10 +8,11 @@ h2 {
     color: #b30000;
 }
 
+/* Table styling */
 table {
-    width: 50%; /* Reduced width to 50% for a more compact appearance */
+    width: 50%;
     border-collapse: collapse;
-    margin: 20px auto; /* Center the table */
+    margin: 20px auto;
 }
 
 table, th, td {
@@ -20,34 +22,34 @@ table, th, td {
 th {
     background-color: #b30000;
     color: white;
-    padding: 15px; /* Increased padding for header cells to increase height */
+    padding: 15px;
     text-align: left;
 }
 
 td {
-    padding: 10px; /* Increased padding for data cells */
+    padding: 10px;
     text-align: left;
 }
 
-input[type="text"] {
-    width: 40px; /* Further reduced width for hour input */
-    height: 30px; /* Increased height for input fields */
+input[type="text"], input[type="number"] {
+    width: 40px;
+    height: 30px;
     margin-right: 5px;
 }
 
 .break-input {
-    width: 50px; /* Adjusted width for break input */
-    height: 30px; /* Increased height for break input */
+    width: 50px;
+    height: 30px;
 }
 
-/* Match the height of AM/PM select box with input fields */
 select {
-    height: 30px; /* Set height for the select box */
+    height: 30px;
 }
 
+/* Button controls */
 .controls {
     margin-top: 20px;
-    text-align: center; /* Center the buttons */
+    text-align: center;
 }
 
 #totalHours {
@@ -56,8 +58,8 @@ select {
 }
 
 button {
-    padding: 8px 16px; /* Button padding */
-    font-size: 14px; /* Font size for buttons */
+    padding: 8px 16px;
+    font-size: 14px;
     margin-right: 10px;
     cursor: pointer;
 }
@@ -89,20 +91,38 @@ button:hover {
 
 /* Styles for Name and Date input fields */
 input#name, input#dates {
-    width: 250px; /* Increased size for Name and Date input boxes */
-    height: 30px; /* Increased height for input fields */
-    padding: 5px; /* Added padding for better usability */
+    width: 250px;
+    height: 30px;
+    padding: 5px;
 }
 
 /* Print styles */
 @media print {
     body {
-        font-size: 12pt; /* Adjust font size for printing */
+        font-size: 12pt;
+        margin: 0; /* Ensure margins are zero to keep the layout consistent */
     }
+
     table {
-        margin: 0; /* Remove margins for printed version */
+        width: 100%; /* Expand the table to use the full width of the page */
+        margin: 0; /* Remove margins for the printed version */
     }
+
     .controls {
-        display: none; /* Hide controls during printing */
+        display: none; /* Hide buttons during printing */
+    }
+
+    input, select {
+        border: none; /* Remove input borders for clean printing */
+        background: none;
+    }
+
+    th, td {
+        border: 1px solid #000; /* Change border color to black for printing */
+    }
+
+    /* Ensure the layout remains centered */
+    table, h2, .toggle-container {
+        page-break-inside: avoid;
     }
 }
