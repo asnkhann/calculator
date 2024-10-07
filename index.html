@@ -15,7 +15,17 @@
     <label for="dates">Dates:</label>
     <input type="text" id="dates" name="dates">
 
-    <!-- Toggle button for rounding feature -->
+    <!-- Leave 2-3 line spaces -->
+    <br><br> <!-- This line was added for spacing -->
+
+    <!-- Conversion calculator for minutes to decimal -->
+    <div class="conversion-container">
+        <label for="minutesInput">Minutes:</label>
+        <input type="number" id="minutesInput" placeholder="" min="0">
+        <button id="convertButton">Convert to Decimal</button>
+        <p>Decimal Output: <span id="decimalOutput">0.00</span></p>
+    </div>
+
     <div class="toggle-container">
         <label for="roundToggle">Rounding ON/OFF:</label>
         <button id="roundToggle">Disabled Rounding</button>
@@ -46,7 +56,7 @@
     <div class="controls">
         <button id="calculateBtn">Calculate</button>
         <button id="clearBtn">Clear All</button>
-        <button id="printBtn" onclick="printPage()">PRINT</button> <!-- Added Print Button -->
+        <button id="printBtn" onclick="printPage()">PRINT</button>
     </div>
 
     <script src="script.js"></script>
