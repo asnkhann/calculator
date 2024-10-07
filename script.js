@@ -15,16 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
         row.innerHTML = `
             <td>${day}</td>
             <td>
-                <input type="text" class="hour-input" placeholder=""> : 
-                <input type="text" class="minute-input" value="00"> 
+                <input type="text" class="hour-input" placeholder="" maxlength="2"> : 
+                <input type="text" class="minute-input" value="00" maxlength="2"> 
                 <select>
                     <option>AM</option>
                     <option>PM</option>
                 </select>
             </td>
             <td>
-                <input type="text" class="hour-input" placeholder=""> : 
-                <input type="text" class="minute-input" value="00"> 
+                <input type="text" class="hour-input" placeholder="" maxlength="2"> : 
+                <input type="text" class="minute-input" value="00" maxlength="2"> 
                 <select>
                     <option>AM</option>
                     <option>PM</option>
@@ -32,11 +32,26 @@ document.addEventListener("DOMContentLoaded", function () {
             </td>
             <td>
                 <input type="text" class="break-input" value=""> : 
-                <input type="text" class="minute-input" value="00">
+                <input type="text" class="minute-input" value="00" maxlength="2">
             </td>
             <td><span class="day-total">0.00</span></td>
         `;
         tableBody.appendChild(row);
+    });
+
+    // Restrict hour input to 1-12 and minute input to 0-59
+    tableBody.addEventListener('input', function (e) {
+        if (e.target.classList.contains('hour-input')) {
+            let val = parseInt(e.target.value);
+            if (val < 1 || val > 12) {
+                e.target.value = '';
+            }
+        } else if (e.target.classList.contains('minute-input')) {
+            let val = parseInt(e.target.value);
+            if (val < 0 || val > 59) {
+                e.target.value = '';
+            }
+        }
     });
 
     // Function to convert time to 24-hour format
@@ -84,8 +99,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const breakMinute = parseInt(row.querySelectorAll('.minute-input')[2].value || 0);
 
             // Convert times to 24-hour format
-            const startTime = convertTo24HourFormat(startHour, startMinute, startPeriod);
-            const endTime = convertTo24HourFormat(endHour, endMinute, endPeriod);
+            let startTime = convertTo24HourFormat(startHour, startMinute, startPeriod);
+            let endTime = convertTo24HourFormat(endHour, endMinute, endPeriod);
+
+            // If end time is earlier than start time, assume it goes into the next day
+            if (endTime < startTime) {
+                endTime += 24;  // Add 24 hours to the end time to account for overnight shifts
+            }
 
             const breakTime = breakHour + breakMinute / 60;
 
