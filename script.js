@@ -38,44 +38,44 @@ document.addEventListener("DOMContentLoaded", function () {
         tableBody.appendChild(row);
     });
     
-document.querySelectorAll('input[type="number"]').forEach(function(input) {
-    input.addEventListener('keydown', function(e) {
-        if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+') {
-            e.preventDefault();
-        }
+    // Prevent non-numeric characters like 'e', 'E', and other non-numbers in hour input fields
+    document.querySelectorAll('input[type="number"]').forEach(function(input) {
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+') {
+                e.preventDefault();
+            }
+        });
     });
-});
 
     loadStoredData();
 
     tableBody.addEventListener('keydown', function (e) {
-    if (e.target.classList.contains('hour-input') || e.target.classList.contains('minute-input')) {
-        if (e.key === "Backspace" || e.key === "Tab" || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "Delete") {
-            return;
+        if (e.target.classList.contains('hour-input') || e.target.classList.contains('minute-input')) {
+            if (e.key === "Backspace" || e.key === "Tab" || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "Delete") {
+                return;
+            }
+
+            if (isNaN(e.key) || e.key === 'e' || e.key === 'E') {
+                e.preventDefault();
+            }
+        }
+    });
+
+    tableBody.addEventListener('input', function (e) {
+        if (e.target.classList.contains('hour-input')) {
+            let val = parseInt(e.target.value);
+            if (val < 1 || val > 12) {
+                e.target.value = '';
+            }
+        } else if (e.target.classList.contains('minute-input')) {
+            let val = parseInt(e.target.value);
+            if (val < 0 || val > 59) {
+                e.target.value = '';
+            }
         }
 
-        if (isNaN(e.key) || e.key === 'e' || e.key === 'E') {
-            e.preventDefault();
-        }
-    }
-});
-
-tableBody.addEventListener('input', function (e) {
-    if (e.target.classList.contains('hour-input')) {
-        let val = parseInt(e.target.value);
-        if (val < 1 || val > 12) {
-            e.target.value = '';
-        }
-    } else if (e.target.classList.contains('minute-input')) {
-        let val = parseInt(e.target.value);
-        if (val < 0 || val > 59) {
-            e.target.value = '';
-        }
-    }
-
-    saveData();
-});
-
+        saveData();
+    });
 
     function convertTo24HourFormat(hour, minute, period) {
         if (period === "PM" && hour !== 12) {
@@ -127,14 +127,15 @@ tableBody.addEventListener('input', function (e) {
                 endTime += 24;
             }
 
-            const breakTime = breakHour + breakMinute / 60;
-
-            let hoursWorked = (endTime - startTime) - breakTime;
-            hoursWorked = hoursWorked > 0 ? hoursWorked : 0;
+            let hoursWorked = endTime - startTime;
 
             if (roundingEnabled) {
-                hoursWorked = roundToNearestQuarterHour(hoursWorked);
+                hoursWorked = roundToNearestQuarterHour(hoursWorked); // Round before deducting break
             }
+
+            const breakTime = breakHour + breakMinute / 60;
+            hoursWorked = hoursWorked - breakTime;
+            hoursWorked = hoursWorked > 0 ? hoursWorked : 0; // Ensure no negative values
 
             row.querySelector('.day-total').textContent = hoursWorked.toFixed(2);
             totalHours += hoursWorked;
