@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         tableBody.appendChild(row);
     });
     
-// Prevent non-numeric characters like 'e', 'E', and other non-numbers in hour input fields
 document.querySelectorAll('input[type="number"]').forEach(function(input) {
     input.addEventListener('keydown', function(e) {
         if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+') {
