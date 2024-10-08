@@ -138,51 +138,7 @@ input[type="number"] {
         border: 1px solid #000; 
     }
 
-    table, h2, .toggle-container {
+       table, h2, .toggle-container {
         page-break-inside: avoid;
-    }
-}
-
-/* Responsive Styles */
-@media (max-width: 767px) {
-    table {
-        width: 100%; /* Ensures table takes full width on small screens */
-        font-size: 12px; /* Adjust font size for smaller screens */
-    }
-
-    th, td {
-        padding: 8px;
-    }
-
-    input[type="text"], input[type="number"] {
-        width: 30px; /* Make input boxes smaller for small screens */
-        height: 25px;
-    }
-
-    .controls {
-        margin-top: 10px;
-    }
-
-    button {
-        font-size: 12px; /* Make buttons smaller */
-        padding: 6px 10px;
-    }
-
-    input#name, input#dates {
-        width: 200px; /* Adjust name and date input for small screens */
-        height: 25px;
-    }
-}
-
-@media (max-width: 1024px) {
-    table {
-        width: 70%;
-    }
-}
-
-/* Large screens */
-@media (min-width: 1200px) {
-    table {
-        width: 50%; /* For larger screens, set table width */
     }
 }
