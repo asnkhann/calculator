@@ -50,10 +50,10 @@ label {
 }
 
 input#name, input#dates {
-    width: 150px;
+    width: 150px; /* Fixed width */
     height: 35px; /* Increased height for better vertical centering */
     padding: 5px;
-    text-align: Left; /* Align text to the right */
+    text-align: right; /* Align text to the right */
 }
 
 /* Rounding Toggle Section */
@@ -180,22 +180,22 @@ button {
 }
 
 #calculateBtn {
-    background-color: #4CAF50; /* Same background for calculate button */
+    background-color: #4CAF50; /* Green background for calculate button */
     color: white;
 }
 
 #clearBtn {
-    background-color: #f44336; /* Clear button color */
+    background-color: #f44336; /* Red background for clear button */
     color: white;
 }
 
 #printBtn {
-    background-color: #2196F3; /* Print button color */
+    background-color: #2196F3; /* Blue background for print button */
     color: white;
 }
 
 #swapButton {
-    background-color: #ff6600; /* Swap button color */
+    background-color: #ff6600; /* Orange background for swap button */
     color: white;
 }
 
