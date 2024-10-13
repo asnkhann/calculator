@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const minutesInput = document.getElementById('minutes');
     const swapButton = document.getElementById('swapButton');
 
+// Enable Decimal Hours by default and disable Hours and Minutes
+    decimalHoursInput.disabled = true;
+    hoursInput.disabled = false;
+    minutesInput.disabled = false;
+
     function decimalToHoursAndMinutes(decimal) {
         const hours = Math.floor(decimal);
         const minutes = Math.round((decimal - hours) * 60);
@@ -126,20 +131,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     tableBody.addEventListener('input', function (e) {
-        if (e.target.classList.contains('hour-input')) {
-            let val = parseInt(e.target.value);
-            if (val < 1 || val > 12) {
-                e.target.value = '';
-            }
-        } else if (e.target.classList.contains('minute-input')) {
-            let val = parseInt(e.target.value);
-            if (val < 0 || val > 59) {
-                e.target.value = '';
-            }
+    if (e.target.classList.contains('hour-input')) {
+        let val = parseInt(e.target.value);
+        if (val < 1 || val > 12) {
+            e.target.value = ''; // Clear the input if it's invalid
+        }
+    } else if (e.target.classList.contains('minute-input')) {
+        let val = e.target.value;
+        // Remove any non-numeric characters
+        val = val.replace(/\D/g, '');
+
+        // Ensure the value is between 0 and 59
+        if (val.length > 2) {
+            val = val.substring(0, 2); // Restrict to two digits
         }
 
-        saveData();
-    });
+        if (parseInt(val) > 59) {
+            val = '59'; // Cap the value at 59
+        }
+
+        e.target.value = val; // Update the input with the cleaned value
+    }
+
+    saveData();
+});
+
 
     function convertTo24HourFormat(hour, minute, period) {
         if (period === "PM" && hour !== 12) {
@@ -277,7 +293,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    calculateBtn.addEventListener("click", calculateHours);
 
     tableBody.addEventListener('input', calculateHours);
 
