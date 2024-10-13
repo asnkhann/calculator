@@ -264,10 +264,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    calculateBtn.addEventListener("click", calculateHours);
-
-    tableBody.addEventListener('input', calculateHours);
-
     clearBtn.addEventListener("click", function () {
         const inputs = document.querySelectorAll('input');
         inputs.forEach(input => {
