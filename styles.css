@@ -3,14 +3,146 @@ body {
     margin: 20px;
 }
 
-h2 {
-    color: #b30000;
+#mainContainer {
+    max-width: 900px; /* Adjust the size of the container */
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
 }
 
+/* Header Section */
+.header-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #b30000;
+    font-size: 24px;
+}
+
+/* Flex container for Name, Date, and Rounding */
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Name and Date Section */
+.input-section {
+    display: flex;
+    gap: 10px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column; /* Stack label above the input */
+    align-items: center; /* Center-align label and input */
+    text-align: center; /* Center text inside the input group */
+}
+
+label {
+    line-height: 35px; /* Match this with the height of the input */
+    height: 35px; /* Set the height of the label to match the input height */
+}
+
+input#name, input#dates {
+    width: 150px;
+    height: 35px; /* Increased height for better vertical centering */
+    padding: 5px;
+    text-align: center; /* Center text in input */
+}
+
+/* Rounding Toggle Section */
+.toggle-container {
+    display: flex;
+    align-items: center; /* Align items vertically center */
+    gap: 10px; /* Space between the label and button */
+}
+
+#roundToggle {
+    background-color: #4CAF50;
+    color: white;
+    margin-bottom: 10px;
+}
+
+#roundMessage {
+    font-weight: bold;
+}
+
+/* Conversion Calculator */
+.conversion-calculator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.conversion-calculator div {
+    margin-right: 10px;
+}
+
+.equal-sign {
+    margin: 0 10px;
+}
+
+#hoursCalculator {
+    margin-bottom: 20px;
+}
+
+input#decimalHours, input#hours, input#minutes {
+    width: 60px;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+}
+
+/* Styles for Starting and Ending Time Inputs */
+.hour-input {
+    width: 40px; /* Width for two-digit input */
+    height: 35px; /* Increased height by 2% */
+    text-align: center;
+}
+
+.minute-input {
+    width: 40px; /* Width for minute input */
+    height: 35px; /* Increased height by 2% */
+    text-align: center;
+}
+
+/* Styles for AM/PM Dropdown */
+select {
+    width: 60px; /* Same width as hour input */
+    height: 35px; /* Same height as hour input */
+    text-align: center;
+}
+
+/* Styles for Break Duration Inputs */
+.break-input {
+    width: 40px; /* Width for break hour input */
+    height: 35px; /* Same height as hour input */
+    text-align: center;
+}
+
+/* Remove the spinners from number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Table Styling */
 table {
-    width: 50%;
+    width: 100%;
     border-collapse: collapse;
-    margin: 20px auto;
+    margin-top: 20px;
 }
 
 table, th, td {
@@ -29,116 +161,75 @@ td {
     text-align: left;
 }
 
-input.hour-input,
-input.minute-input,
-.break-input {
-    text-align: center; 
-}
-
-input[type="text"], input[type="number"] {
-    width: 40px;
-    height: 30px;
-    margin-right: 5px;
-}
-
-.break-input {
-    width: 50px;
-    height: 30px;
-}
-
-select {
-    height: 30px;
-}
-
+/* Control Buttons */
 .controls {
-    margin-top: 20px;
     text-align: center;
+    margin-top: 20px;
 }
 
 #totalHours {
-    margin-top: 20px;
     font-weight: bold;
 }
 
 button {
-    padding: 8px 16px;
-    font-size: 14px;
-    margin-right: 10px;
+    padding: 10px 20px; /* Increased padding for larger buttons */
+    font-size: 16px; /* Increased font size for better visibility */
     cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px; /* Optional: Add some rounding to the corners */
 }
 
 #calculateBtn {
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Same background for calculate button */
     color: white;
-    border: none;
 }
 
 #clearBtn {
-    background-color: #f44336;
+    background-color: #f44336; /* Clear button color */
     color: white;
-    border: none;
+}
+
+#printBtn {
+    background-color: #2196F3; /* Print button color */
+    color: white;
+}
+
+#swapButton {
+    background-color: #ff6600; /* Swap button color */
+    color: white;
 }
 
 button:hover {
-    opacity: 0.9;
+    opacity: 0.9; /* Slightly reduce opacity on hover */
 }
 
-.toggle-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
+/* Message Container Styles */
+.message-container {
+    position: fixed; /* Fixed positioning */
+    top: 40%; /* Move it up by changing this value */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset for perfect centering */
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: white; /* White text */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    z-index: 1000; /* Ensures it appears above other content */
+    text-align: center; /* Center the text inside */
+    display: none; /* Hidden by default */
 }
 
-#roundMessage {
-    font-weight: bold;
-}
-
-input#name, input#dates {
-    width: 250px;
-    height: 30px;
-    padding: 5px;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
+/* Print Styles */
 @media print {
-    .conversion-container {
-        display: none; 
+    .conversion-calculator {
+        display: none; /* Hides the decimal conversion section */
     }
-}
-
-@media print {
-    body {
-        font-size: 12pt;
-        margin: 0; 
+    .toggle-container {
+        display: none; /* Hides the rounding toggle section */
     }
-
-    table {
-        width: 100%;
-        margin: 0; 
-    }
-
     .controls {
-        display: none; 
+        display: none; /* Hides the control buttons */
     }
-
-    input, select {
-        border: none; 
-        background: none;
-    }
-
-    th, td {
-        border: 1px solid #000; 
-    }
-
-       table, h2, .toggle-container {
-        page-break-inside: avoid;
+    #swapButton {
+        display: none; /* Hides the swap button */
     }
 }
