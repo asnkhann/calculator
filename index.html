@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure this line is present -->
     <title>Weekly Hours Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div id="messageContainer" class="message-container" style="display: none;"></div>
-
+    <div id="messageContainer" class="message-container" style="display: none;"></div>
 
     <div id="mainContainer">
         <!-- Header Section -->
@@ -32,7 +30,6 @@
             <div class="toggle-container">
                 <label for="roundToggle">Rounding ON/OFF:</label>
                 <button id="roundToggle">Disabled</button>
-              
             </div>
         </div>
 
@@ -107,7 +104,6 @@
 
         <!-- Control Buttons Section -->
         <div class="controls">
-            <button id="calculateBtn">Calculate</button>
             <button id="clearBtn">Clear All</button>
             <button id="printBtn" onclick="printPage()">PRINT</button>
         </div>
