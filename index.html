@@ -3,60 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Calculator</title>
+    <title>Weekly Hours Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h2>Time Calculator</h2>
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name">
-    
-    <label for="dates">Dates:</label>
-    <input type="text" id="dates" name="dates">
+<div id="messageContainer" class="message-container" style="display: none;"></div>
 
-    <!-- Leave 2-3 line spaces -->
-    <br><br> <!-- This line was added for spacing -->
 
-    <!-- Conversion calculator for minutes to decimal -->
-    <div class="conversion-container">
-        <label for="minutesInput">Minutes:</label>
-        <input type="number" id="minutesInput" placeholder="" min="0">
-        <button id="convertButton">Convert to Decimal</button>
-        <p>Decimal Output: <span id="decimalOutput">0.00</span></p>
-    </div>
+    <div id="mainContainer">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h2>Weekly Hours Calculator</h2>
+        </div>
 
-    <div class="toggle-container">
-        <label for="roundToggle">Rounding ON/OFF:</label>
-        <button id="roundToggle">Disabled Rounding</button>
-        <p id="roundMessage">Rounding Calculation is Disabled</p>
-    </div>
+        <!-- Flex Container for Name, Date, and Rounding -->
+        <div class="flex-container">
+            <!-- Name and Date Section -->
+            <div class="input-section">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+                
+                <label for="dates">Dates:</label>
+                <input type="text" id="dates" name="dates">
+            </div>
 
-    <table id="timeTable">
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>Starting Time</th>
-                <th>Ending Time</th>
-                <th>Break Deduction</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody id="timeTableBody">
-            <!-- Rows will be dynamically created by JavaScript -->
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" style="text-align: right;"><strong>Total Hours:</strong></td>
-                <td><span id="totalHours">0.00</span></td>
-            </tr>
-        </tfoot>
-    </table>
+            <!-- Rounding Toggle Section -->
+            <div class="toggle-container">
+                <label for="roundToggle">Rounding ON/OFF:</label>
+                <button id="roundToggle">Disabled Rounding</button>
+              
+            </div>
+        </div>
 
-    <div class="controls">
-        <button id="calculateBtn">Calculate</button>
-        <button id="clearBtn">Clear All</button>
-        <button id="printBtn" onclick="printPage()">PRINT</button>
+        <!-- Conversion Calculator Section -->
+        <div id="hoursCalculator">
+            <div class="conversion-calculator">
+                <div>
+                    <label for="decimalHours">Decimal Hours</label>
+                    <input type="number" id="decimalHours" placeholder="0.0" min="0" step="0.1">
+                </div>
+                <div class="equal-sign">=</div>
+                <div>
+                    <label for="hours">Hours</label>
+                    <input type="number" id="hours" placeholder="0" min="0">
+                </div>
+                <div class="equal-sign">:</div>
+                <div>
+                    <label for="minutes">Minutes</label>
+                    <input type="number" id="minutes" placeholder="0" min="0" max="59">
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button id="swapButton">Swap</button>
+            </div>
+        </div>
+
+        <!-- Hours Table Section -->
+        <table id="timeTable">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Starting Time</th>
+                    <th>Ending Time</th>
+                    <th>Break Deduction</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="timeTableBody">
+                <tr>
+                    <td>Monday</td>
+                    <td>
+                        <input type="number" class="hour-input" placeholder="" maxlength="2" min="1" max="12"> : 
+                        <input type="number" class="minute-input" value="00" maxlength="2" placeholder="00"> 
+                        <select>
+                            <option>AM</option>
+                            <option>PM</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="hour-input" placeholder="" maxlength="2" min="1" max="12"> : 
+                        <input type="number" class="minute-input" value="00" maxlength="2" placeholder="00"> 
+                        <select>
+                            <option>AM</option>
+                            <option>PM</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="break-input" value="" placeholder=""> : 
+                        <input type="number" class="minute-input" value="00" maxlength="2" placeholder="00"> 
+                    </td>
+                    <td><span class="day-total">0.00</span></td>
+                </tr>
+                <!-- Repeat for other days -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: right;"><strong>Total Hours:</strong></td>
+                    <td><span id="totalHours">0.00</span></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Control Buttons Section -->
+        <div class="controls">
+            <button id="calculateBtn">Calculate</button>
+            <button id="clearBtn">Clear All</button>
+            <button id="printBtn" onclick="printPage()">PRINT</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
