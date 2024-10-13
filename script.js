@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
             : "Rounding Calculation is Disabled";
 
         // Update toggle button text
-        roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled"; // Change button text
+        roundToggle.textContent = roundingEnabled ? "Disabled" : "Enabled"; // Change button text
 
         // Display the message
         const messageContainer = document.getElementById('messageContainer');
@@ -263,10 +263,11 @@ document.addEventListener("DOMContentLoaded", function () {
             calculateHours();
         }
     }
+
     calculateBtn.addEventListener("click", calculateHours);
 
     tableBody.addEventListener('input', calculateHours);
-    
+
     clearBtn.addEventListener("click", function () {
         const inputs = document.querySelectorAll('input');
         inputs.forEach(input => {
