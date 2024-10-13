@@ -34,26 +34,25 @@ h2 {
 /* Name and Date Section */
 .input-section {
     display: flex;
-    gap: 10px;
+    gap: 20px; /* Space between input groups */
 }
 
 .input-group {
     display: flex;
-    flex-direction: column; /* Stack label above the input */
+    flex-direction: row; /* Align label and input horizontally */
     align-items: center; /* Center-align label and input */
-    text-align: center; /* Center text inside the input group */
 }
 
 label {
-    line-height: 35px; /* Match this with the height of the input */
-    height: 35px; /* Set the height of the label to match the input height */
+    margin-right: 10px; /* Space between label and input */
+    font-weight: bold; /* Optional: Make label text bold */
 }
 
 input#name, input#dates {
     width: 150px; /* Fixed width */
     height: 35px; /* Increased height for better vertical centering */
     padding: 5px;
-    text-align: left; /* Align text to the right */
+    text-align: left; /* Align text to the left */
 }
 
 /* Rounding Toggle Section */
