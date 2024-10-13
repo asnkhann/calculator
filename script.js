@@ -7,6 +7,58 @@ document.addEventListener("DOMContentLoaded", function () {
     const roundToggle = document.getElementById('roundToggle');
     const roundMessage = document.getElementById('roundMessage');
 
+    const decimalHoursInput = document.getElementById('decimalHours');
+    const hoursInput = document.getElementById('hours');
+    const minutesInput = document.getElementById('minutes');
+    const swapButton = document.getElementById('swapButton');
+
+    function decimalToHoursAndMinutes(decimal) {
+        const hours = Math.floor(decimal);
+        const minutes = Math.round((decimal - hours) * 60);
+        return { hours, minutes };
+    }
+
+    function hoursAndMinutesToDecimal(hours, minutes) {
+        return parseFloat(hours || 0) + (parseFloat(minutes || 0) / 60);
+    }
+
+    // Convert decimal hours to hours and minutes
+    decimalHoursInput.addEventListener('input', function () {
+        const decimal = parseFloat(decimalHoursInput.value);
+        if (!isNaN(decimal)) {
+            const { hours, minutes } = decimalToHoursAndMinutes(decimal);
+            hoursInput.value = hours;
+            minutesInput.value = minutes;
+        } else {
+            hoursInput.value = '';
+            minutesInput.value = '';
+        }
+    });
+
+    // Convert hours and minutes to decimal
+    function updateDecimal() {
+        const hours = parseFloat(hoursInput.value) || 0;
+        const minutes = parseFloat(minutesInput.value) || 0;
+        const decimal = hoursAndMinutesToDecimal(hours, minutes);
+        decimalHoursInput.value = decimal.toFixed(2);
+    }
+
+    hoursInput.addEventListener('input', updateDecimal);
+    minutesInput.addEventListener('input', updateDecimal);
+
+    // Swap between decimal to hours/minutes and hours/minutes to decimal
+    swapButton.addEventListener('click', function () {
+        if (decimalHoursInput.disabled) {
+            decimalHoursInput.disabled = false;
+            hoursInput.disabled = true;
+            minutesInput.disabled = true;
+        } else {
+            decimalHoursInput.disabled = true;
+            hoursInput.disabled = false;
+            minutesInput.disabled = false;
+        }
+    });
+
     let roundingEnabled = false;
 
     days.forEach(day => {
@@ -14,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
         row.innerHTML = `
             <td>${day}</td>
             <td>
-                <input type="number" class="hour-input" placeholder="" maxlength="2"> : 
+                <input type="number" class="hour-input" placeholder="" maxlength="2" min="1" max="12"> : 
                 <input type="number" class="minute-input" value="00" maxlength="2" placeholder="00"> 
                 <select>
                     <option>AM</option>
@@ -22,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </select>
             </td>
             <td>
-                <input type="number" class="hour-input" placeholder="" maxlength="2"> : 
+                <input type="number" class="hour-input" placeholder="" maxlength="2" min="1" max="12"> : 
                 <input type="number" class="minute-input" value="00" maxlength="2" placeholder="00"> 
                 <select>
                     <option>AM</option>
@@ -37,8 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         tableBody.appendChild(row);
     });
-    
-    // Prevent non-numeric characters like 'e', 'E', and other non-numbers in hour input fields
+
     document.querySelectorAll('input[type="number"]').forEach(function(input) {
         input.addEventListener('keydown', function(e) {
             if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+') {
@@ -87,22 +138,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function roundToNearestQuarterHour(hoursWorked) {
-        const minutes = (hoursWorked * 60);
+        const minutes = Math.round(hoursWorked * 60);
         const roundedMinutes = Math.round(minutes / 15) * 15;
         return roundedMinutes / 60;
     }
 
     roundToggle.addEventListener("click", function () {
-        roundingEnabled = !roundingEnabled;
-        roundToggle.textContent = roundingEnabled ? "Enabled Rounding" : "Disabled Rounding";
-        roundMessage.textContent = roundingEnabled ? "Rounding Calculation is Enabled" : "Rounding Calculation is Disabled";
-        calculateHours();
+        roundingEnabled = !roundingEnabled; // Toggle rounding state
+        const message = roundingEnabled 
+            ? "Rounding Calculation is Enabled" 
+            : "Rounding Calculation is Disabled";
+
+        // Update toggle button text
+        roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled"; // Change button text
+
+        // Display the message
+        const messageContainer = document.getElementById('messageContainer');
+        messageContainer.textContent = message; // Set the message text
+        messageContainer.style.display = 'block'; // Show the message container
+
+        // Hide the message after a few seconds
+        setTimeout(() => {
+            messageContainer.style.display = 'none';
+        }, 3000); // Hide after 3 seconds
+
+        calculateHours(); // Call function to recalculate hours
     });
 
     function calculateHours() {
         let totalHours = 0;
         const rows = tableBody.querySelectorAll('tr');
-        
+
         rows.forEach(row => {
             const startHour = parseInt(row.querySelectorAll('.hour-input')[0].value || 0);
             const startMinute = parseInt(row.querySelectorAll('.minute-input')[0].value || 0);
@@ -130,12 +196,11 @@ document.addEventListener("DOMContentLoaded", function () {
             let hoursWorked = endTime - startTime;
 
             if (roundingEnabled) {
-                hoursWorked = roundToNearestQuarterHour(hoursWorked); // Round before deducting break
+                hoursWorked = roundToNearestQuarterHour(hoursWorked);
             }
 
             const breakTime = breakHour + breakMinute / 60;
-            hoursWorked = hoursWorked - breakTime;
-            hoursWorked = hoursWorked > 0 ? hoursWorked : 0; // Ensure no negative values
+            hoursWorked = hoursWorked - breakTime > 0 ? hoursWorked - breakTime : 0;
 
             row.querySelector('.day-total').textContent = hoursWorked.toFixed(2);
             totalHours += hoursWorked;
@@ -215,26 +280,6 @@ document.addEventListener("DOMContentLoaded", function () {
         totalHoursDisplay.textContent = '0.00';
 
         localStorage.removeItem('timeCalculatorData');
-    });
-
-    const convertButton = document.getElementById('convertButton');
-    const decimalOutput = document.getElementById('decimalOutput');
-
-    convertButton.addEventListener("click", function () {
-        const minutesInput = document.getElementById('minutesInput').value;
-        const minutes = parseInt(minutesInput);
-
-        if (!isNaN(minutes) && minutes >= 0) {
-            const decimalValue = (minutes / 60).toFixed(2);
-            decimalOutput.textContent = decimalValue;
-        } else {
-            decimalOutput.textContent = "0.00";
-        }
-    });
-
-    document.getElementById('minutesInput').addEventListener('input', function () {
-        const minutesInput = this.value;
-        decimalOutput.textContent = minutesInput ? decimalOutput.textContent : "0.00";
     });
 });
 
