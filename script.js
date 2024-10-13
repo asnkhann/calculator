@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let roundingEnabled = false;
 
+    // Populate the table with days of the week
     days.forEach(day => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -89,6 +90,18 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         tableBody.appendChild(row);
     });
+
+    // Set default ending time to PM for each day
+    function setDefaultEndingTime() {
+        const rows = document.querySelectorAll('#timeTableBody tr');
+        rows.forEach(row => {
+            const endPeriodSelect = row.querySelectorAll('select')[1]; // Select the ending time dropdown (second select)
+            endPeriodSelect.value = 'PM'; // Set the default value to PM
+        });
+    }
+
+    // Call the function to set default values
+    setDefaultEndingTime();
 
     document.querySelectorAll('input[type="number"]').forEach(function(input) {
         input.addEventListener('keydown', function(e) {
@@ -268,21 +281,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tableBody.addEventListener('input', calculateHours);
 
-    clearBtn.addEventListener("click", function () {
-        const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.value = '';
-        });
-        const dayTotals = document.querySelectorAll('.day-total');
-        dayTotals.forEach(total => {
-            total.textContent = '0.00';
-        });
-        totalHoursDisplay.textContent = '0.00';
-
-        localStorage.removeItem('timeCalculatorData');
+    // Clear All Button Event Listener
+    // Clear All Button Event Listener
+	clearBtn.addEventListener("click", function () {
+    // Clear all input fields
+    const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+    inputs.forEach(input => {
+        input.value = ''; // Clear text and number inputs
     });
+
+    // Reset AM/PM selections to default
+    const selectElements = document.querySelectorAll('select');
+    selectElements.forEach((select, index) => {
+        // Set starting time (first select in the row) to AM
+        if (index % 2 === 0) {
+            select.selectedIndex = 0; // AM for starting time
+        } else {
+            select.selectedIndex = 1; // PM for ending time
+        }
+    });
+
+    // Clear day totals and total hours display
+    const dayTotals = document.querySelectorAll('.day-total');
+    dayTotals.forEach(total => {
+        total.textContent = '0.00'; // Reset totals to 0.00
+    });
+    totalHoursDisplay.textContent = '0.00'; // Reset total hours display
+
+    // Remove stored data from local storage
+    localStorage.removeItem('timeCalculatorData'); // Clear any saved data
 });
 
+});
+
+// Function to print the page
 function printPage() {
     window.print();
 }
