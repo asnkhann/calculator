@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Hide the message after a few seconds
         setTimeout(() => {
             messageContainer.style.display = 'none';
-        }, 4000); // Hide after 3 seconds
+        }, 3000); // Hide after 3 seconds
 
         calculateHours(); // Call function to recalculate hours
     });
