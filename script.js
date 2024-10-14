@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const minutesInput = document.getElementById('minutes');
     const swapButton = document.getElementById('swapButton');
 
-// Enable Decimal Hours by default and disable Hours and Minutes
+    // Enable Decimal Hours by default and disable Hours and Minutes
     decimalHoursInput.disabled = true;
     hoursInput.disabled = false;
     minutesInput.disabled = false;
@@ -131,31 +131,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     tableBody.addEventListener('input', function (e) {
-    if (e.target.classList.contains('hour-input')) {
-        let val = parseInt(e.target.value);
-        if (val < 1 || val > 12) {
-            e.target.value = ''; // Clear the input if it's invalid
+        if (e.target.classList.contains('hour-input')) {
+            let val = parseInt(e.target.value);
+            if (val < 1 || val > 12) {
+                e.target.value = ''; // Clear the input if it's invalid
+            }
+        } else if (e.target.classList.contains('minute-input')) {
+            let val = e.target.value;
+            // Remove any non-numeric characters
+            val = val.replace(/\D/g, '');
+
+            // Ensure the value is between 0 and 59
+            if (val.length > 2) {
+                val = val.substring(0, 2); // Restrict to two digits
+            }
+
+            if (parseInt(val) > 59) {
+                val = '59'; // Cap the value at 59
+            }
+
+            e.target.value = val; // Update the input with the cleaned value
         }
-    } else if (e.target.classList.contains('minute-input')) {
-        let val = e.target.value;
-        // Remove any non-numeric characters
-        val = val.replace(/\D/g, '');
 
-        // Ensure the value is between 0 and 59
-        if (val.length > 2) {
-            val = val.substring(0, 2); // Restrict to two digits
-        }
-
-        if (parseInt(val) > 59) {
-            val = '59'; // Cap the value at 59
-        }
-
-        e.target.value = val; // Update the input with the cleaned value
-    }
-
-    saveData();
-});
-
+        saveData();
+    });
 
     function convertTo24HourFormat(hour, minute, period) {
         if (period === "PM" && hour !== 12) {
@@ -166,10 +165,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return hour + minute / 60;
     }
 
+    // Updated rounding function for nearest 15 minutes
     function roundToNearestQuarterHour(hoursWorked) {
-        const minutes = Math.round(hoursWorked * 60);
-        const roundedMinutes = Math.round(minutes / 15) * 15;
-        return roundedMinutes / 60;
+        const totalMinutes = Math.round(hoursWorked * 60); // Convert hours to minutes
+        const roundedMinutes = Math.round(totalMinutes / 15) * 15; // Round to nearest 15 minutes
+        return roundedMinutes / 60; // Convert back to hours
     }
 
     roundToggle.addEventListener("click", function () {
@@ -215,27 +215,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+            // Convert start and end times to 24-hour format
             let startTime = convertTo24HourFormat(startHour, startMinute, startPeriod);
             let endTime = convertTo24HourFormat(endHour, endMinute, endPeriod);
 
+            // Apply rounding if rounding is enabled
+            if (roundingEnabled) {
+                startTime = roundToNearestQuarterHour(startTime);
+                endTime = roundToNearestQuarterHour(endTime);
+            }
+
+            // Handle end times after midnight
             if (endTime < startTime) {
                 endTime += 24;
             }
 
+            // Calculate hours worked
             let hoursWorked = endTime - startTime;
-
-            if (roundingEnabled) {
-                hoursWorked = roundToNearestQuarterHour(hoursWorked);
-            }
 
             const breakTime = breakHour + breakMinute / 60;
             hoursWorked = hoursWorked - breakTime > 0 ? hoursWorked - breakTime : 0;
 
-            row.querySelector('.day-total').textContent = hoursWorked.toFixed(2);
+            row.querySelector('.day-total').textContent = hoursWorked.toFixed(2); // Display day total
             totalHours += hoursWorked;
         });
 
-        totalHoursDisplay.textContent = totalHours.toFixed(2);
+        totalHoursDisplay.textContent = totalHours.toFixed(2); // Display total hours
     }
 
     function saveData() {
@@ -293,41 +298,39 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-	
     calculateBtn.addEventListener("click", calculateHours);
 
     tableBody.addEventListener('input', calculateHours);
 
     // Clear All Button Event Listener
-    // Clear All Button Event Listener
-	clearBtn.addEventListener("click", function () {
-    // Clear all input fields
-    const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
-    inputs.forEach(input => {
-        input.value = ''; // Clear text and number inputs
-    });
+    clearBtn.addEventListener("click", function () {
+        // Clear all input fields
+        const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+        inputs.forEach(input => {
+            input.value = ''; // Clear text and number inputs
+        });
 
-    // Reset AM/PM selections to default
-    const selectElements = document.querySelectorAll('select');
-    selectElements.forEach((select, index) => {
-        // Set starting time (first select in the row) to AM
-        if (index % 2 === 0) {
-            select.selectedIndex = 0; // AM for starting time
-        } else {
-            select.selectedIndex = 1; // PM for ending time
-        }
-    });
+        // Reset AM/PM selections to default
+        const selectElements = document.querySelectorAll('select');
+        selectElements.forEach((select, index) => {
+            // Set starting time (first select in the row) to AM
+            if (index % 2 === 0) {
+                select.selectedIndex = 0; // AM for starting time
+            } else {
+                select.selectedIndex = 1; // PM for ending time
+            }
+        });
 
-    // Clear day totals and total hours display
-    const dayTotals = document.querySelectorAll('.day-total');
-    dayTotals.forEach(total => {
-        total.textContent = '0.00'; // Reset totals to 0.00
-    });
-    totalHoursDisplay.textContent = '0.00'; // Reset total hours display
+        // Clear day totals and total hours display
+        const dayTotals = document.querySelectorAll('.day-total');
+        dayTotals.forEach(total => {
+            total.textContent = '0.00'; // Reset totals to 0.00
+        });
+        totalHoursDisplay.textContent = '0.00'; // Reset total hours display
 
-    // Remove stored data from local storage
-    localStorage.removeItem('timeCalculatorData'); // Clear any saved data
-});
+        // Remove stored data from local storage
+        localStorage.removeItem('timeCalculatorData'); // Clear any saved data
+    });
 
 });
 
