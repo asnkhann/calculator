@@ -227,6 +227,14 @@
 
         /* Print Styles */
         @media print {
+            body {
+                margin: 0; /* Remove margin */
+                font-size: 12px; /* Smaller font size for print */
+            }
+            #mainContainer {
+                padding: 10px; /* Reduce padding for print */
+                border: none; /* Remove border for print */
+            }
             .conversion-calculator {
                 display: none; /* Hides the decimal conversion section */
             }
@@ -238,6 +246,10 @@
             }
             #swapButton {
                 display: none; /* Hides the swap button */
+            }
+            table {
+                page-break-inside: avoid; /* Prevent breaking inside the table */
+                width: 100%; /* Ensures the table uses full width */
             }
         }
     </style>
@@ -268,7 +280,7 @@
 
         <!-- Rounding Toggle Section -->
         <div class="toggle-container">
-            <label for="roundToggle">Rounding:</label>
+            <label for="roundToggle">Rounding ON/OFF:</label>
             <button id="roundToggle">Disabled</button>
         </div>
     </div>
