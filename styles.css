@@ -219,6 +219,14 @@ button:hover {
 
 /* Print Styles */
 @media print {
+    body {
+        margin: 0; /* Remove margin */
+        font-size: 12px; /* Smaller font size for print */
+    }
+    #mainContainer {
+        padding: 10px; /* Reduce padding for print */
+        border: none; /* Remove border for print */
+    }
     .conversion-calculator {
         display: none; /* Hides the decimal conversion section */
     }
@@ -230,5 +238,8 @@ button:hover {
     }
     #swapButton {
         display: none; /* Hides the swap button */
+    }
+    table {
+        page-break-inside: avoid; /* Prevent breaking inside the table */
     }
 }
