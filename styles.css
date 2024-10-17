@@ -247,4 +247,8 @@ button:hover {
     table {
         page-break-inside: avoid; /* Prevent breaking inside the table */
     }
+    
+    #buyMeCoffee {
+        display: none; /* Hides the Buy Me a Coffee button during print */
+    }
 }
