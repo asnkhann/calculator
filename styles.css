@@ -60,12 +60,17 @@ input#name, input#dates {
     display: flex;
     align-items: center; /* Align items vertically center */
     gap: 10px; /* Space between the label and button */
+    width: 200px; /* Set a fixed width to keep the position stable */
 }
 
+/* Fixed width for the button to prevent resizing */
 #roundToggle {
+    width: 120px; /* Set a fixed width for the toggle button */
     background-color: #4CAF50;
     color: white;
     margin-bottom: 10px;
+    text-align: center;
+    padding: 10px; /* Optional: Add padding for better button size */
 }
 
 #roundMessage {
