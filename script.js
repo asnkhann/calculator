@@ -172,13 +172,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return roundedMinutes / 60; // Convert back to hours
     }
 
+    // Set initial button background color
+    roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Set initial color based on state
+    
     roundToggle.addEventListener("click", function () {
         roundingEnabled = !roundingEnabled; // Toggle rounding state
         const message = roundingEnabled 
             ? "Rounding Calculation is Enabled" 
             : "Rounding Calculation is Disabled";
-// Set initial button background color
-    roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Set initial color based on state
         
         // Update toggle button text
         roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled"; // Change button text
