@@ -177,7 +177,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const message = roundingEnabled 
             ? "Rounding Calculation is Enabled" 
             : "Rounding Calculation is Disabled";
-
+// Set initial button background color
+    roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Set initial color based on state
+        
         // Update toggle button text
         roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled"; // Change button text
         roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Change color
