@@ -180,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update toggle button text
         roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled"; // Change button text
+        roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Change color
 
         // Display the message
         const messageContainer = document.getElementById('messageContainer');
