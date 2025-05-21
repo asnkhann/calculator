@@ -252,3 +252,11 @@ button:hover {
         display: none; /* Hides the Buy Me a Coffee button during print */
     }
 }
+
+/* Footer Section */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
