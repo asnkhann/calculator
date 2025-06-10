@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const minutesInput = document.getElementById('minutes');
     const swapButton = document.getElementById('swapButton');
 
-    // Enable Decimal Hours by default and disable Hours and Minutes
     decimalHoursInput.disabled = true;
     hoursInput.disabled = false;
     minutesInput.disabled = false;
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return parseFloat(hours || 0) + (parseFloat(minutes || 0) / 60);
     }
 
-    // Convert decimal hours to hours and minutes
     decimalHoursInput.addEventListener('input', function () {
         const decimal = parseFloat(decimalHoursInput.value);
         if (!isNaN(decimal)) {
@@ -40,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Convert hours and minutes to decimal
     function updateDecimal() {
         const hours = parseFloat(hoursInput.value) || 0;
         const minutes = parseFloat(minutesInput.value) || 0;
@@ -51,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
     hoursInput.addEventListener('input', updateDecimal);
     minutesInput.addEventListener('input', updateDecimal);
 
-    // Swap between decimal to hours/minutes and hours/minutes to decimal
     swapButton.addEventListener('click', function () {
         if (decimalHoursInput.disabled) {
             decimalHoursInput.disabled = false;
@@ -66,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let roundingEnabled = false;
 
-    // Populate the table with days of the week
     days.forEach(day => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -96,20 +91,18 @@ document.addEventListener("DOMContentLoaded", function () {
         tableBody.appendChild(row);
     });
 
-    // Set default ending time to PM for each day
     function setDefaultEndingTime() {
         const rows = document.querySelectorAll('#timeTableBody tr');
         rows.forEach(row => {
-            const endPeriodSelect = row.querySelectorAll('select')[1]; // Select the ending time dropdown (second select)
-            endPeriodSelect.value = 'PM'; // Set the default value to PM
+            const endPeriodSelect = row.querySelectorAll('select')[1];
+            endPeriodSelect.value = 'PM';
         });
     }
 
-    // Call the function to set default values
     setDefaultEndingTime();
 
-    document.querySelectorAll('input[type="number"]').forEach(function(input) {
-        input.addEventListener('keydown', function(e) {
+    document.querySelectorAll('input[type="number"]').forEach(function (input) {
+        input.addEventListener('keydown', function (e) {
             if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+') {
                 e.preventDefault();
             }
@@ -120,82 +113,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tableBody.addEventListener('keydown', function (e) {
         if (e.target.classList.contains('hour-input') || e.target.classList.contains('minute-input')) {
-            if (e.key === "Backspace" || e.key === "Tab" || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "Delete") {
-                return;
-            }
-
-            if (isNaN(e.key) || e.key === 'e' || e.key === 'E') {
-                e.preventDefault();
-            }
+            if (["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"].includes(e.key)) return;
+            if (isNaN(e.key) || e.key === 'e' || e.key === 'E') e.preventDefault();
         }
     });
 
     tableBody.addEventListener('input', function (e) {
         if (e.target.classList.contains('hour-input')) {
             let val = parseInt(e.target.value);
-            if (val < 1 || val > 12) {
-                e.target.value = ''; // Clear the input if it's invalid
-            }
+            if (val < 1 || val > 12) e.target.value = '';
         } else if (e.target.classList.contains('minute-input')) {
-            let val = e.target.value;
-            // Remove any non-numeric characters
-            val = val.replace(/\D/g, '');
-
-            // Ensure the value is between 0 and 59
-            if (val.length > 2) {
-                val = val.substring(0, 2); // Restrict to two digits
-            }
-
-            if (parseInt(val) > 59) {
-                val = '59'; // Cap the value at 59
-            }
-
-            e.target.value = val; // Update the input with the cleaned value
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 2) val = val.substring(0, 2);
+            if (parseInt(val) > 59) val = '59';
+            e.target.value = val;
         }
 
         saveData();
     });
 
     function convertTo24HourFormat(hour, minute, period) {
-        if (period === "PM" && hour !== 12) {
-            hour += 12;
-        } else if (period === "AM" && hour === 12) {
-            hour = 0;
-        }
+        if (period === "PM" && hour !== 12) hour += 12;
+        if (period === "AM" && hour === 12) hour = 0;
         return hour + minute / 60;
     }
 
-    // Updated rounding function for nearest 15 minutes
     function roundToNearestQuarterHour(hoursWorked) {
-        const totalMinutes = Math.round(hoursWorked * 60); // Convert hours to minutes
-        const roundedMinutes = Math.round(totalMinutes / 15) * 15; // Round to nearest 15 minutes
-        return roundedMinutes / 60; // Convert back to hours
+        const totalMinutes = Math.round(hoursWorked * 60);
+        const roundedMinutes = Math.round(totalMinutes / 15) * 15;
+        return roundedMinutes / 60;
     }
 
-    // Set initial button background color
-    roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Set initial color based on state
-    
+    roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray";
+
     roundToggle.addEventListener("click", function () {
-        roundingEnabled = !roundingEnabled; // Toggle rounding state
-        const message = roundingEnabled 
-            ? "Rounding Calculation is Enabled" 
+        roundingEnabled = !roundingEnabled;
+        const message = roundingEnabled
+            ? "Rounding Calculation is Enabled"
             : "Rounding Calculation is Disabled";
-        
-        // Update toggle button text
-        roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled"; // Change button text
-        roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray"; // Change color
 
-        // Display the message
+        roundToggle.textContent = roundingEnabled ? "Enabled" : "Disabled";
+        roundToggle.style.backgroundColor = roundingEnabled ? "#4CAF50" : "gray";
+
         const messageContainer = document.getElementById('messageContainer');
-        messageContainer.textContent = message; // Set the message text
-        messageContainer.style.display = 'block'; // Show the message container
+        messageContainer.textContent = message;
+        messageContainer.style.display = 'block';
 
-        // Hide the message after a few seconds
         setTimeout(() => {
             messageContainer.style.display = 'none';
-        }, 4000); // Hide after 3 seconds
+        }, 4000);
 
-        calculateHours(); // Call function to recalculate hours
+        calculateHours();
     });
 
     function calculateHours() {
@@ -219,32 +187,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Convert start and end times to 24-hour format
             let startTime = convertTo24HourFormat(startHour, startMinute, startPeriod);
             let endTime = convertTo24HourFormat(endHour, endMinute, endPeriod);
 
-            // Apply rounding if rounding is enabled
             if (roundingEnabled) {
                 startTime = roundToNearestQuarterHour(startTime);
                 endTime = roundToNearestQuarterHour(endTime);
             }
 
-            // Handle end times after midnight
-            if (endTime < startTime) {
-                endTime += 24;
-            }
+            if (endTime < startTime) endTime += 24;
 
-            // Calculate hours worked
             let hoursWorked = endTime - startTime;
-
             const breakTime = breakHour + breakMinute / 60;
             hoursWorked = hoursWorked - breakTime > 0 ? hoursWorked - breakTime : 0;
 
-            row.querySelector('.day-total').textContent = hoursWorked.toFixed(2); // Display day total
-            totalHours += hoursWorked;
+            const roundedDayTotal = (Math.round(hoursWorked * 100) / 100).toFixed(2);
+            row.querySelector('.day-total').textContent = roundedDayTotal;
+            totalHours += parseFloat(roundedDayTotal);
         });
 
-        totalHoursDisplay.textContent = (Math.round(totalHours * 100) / 100).toFixed(2);  // Display total hours
+        totalHoursDisplay.textContent = (Math.round(totalHours * 100) / 100).toFixed(2);
     }
 
     function saveData() {
@@ -303,42 +265,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     calculateBtn.addEventListener("click", calculateHours);
-
     tableBody.addEventListener('input', calculateHours);
 
-    // Clear All Button Event Listener
     clearBtn.addEventListener("click", function () {
-        // Clear all input fields
         const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
-        inputs.forEach(input => {
-            input.value = ''; // Clear text and number inputs
-        });
+        inputs.forEach(input => input.value = '');
 
-        // Reset AM/PM selections to default
         const selectElements = document.querySelectorAll('select');
         selectElements.forEach((select, index) => {
-            // Set starting time (first select in the row) to AM
-            if (index % 2 === 0) {
-                select.selectedIndex = 0; // AM for starting time
-            } else {
-                select.selectedIndex = 1; // PM for ending time
-            }
+            select.selectedIndex = index % 2 === 0 ? 0 : 1;
         });
 
-        // Clear day totals and total hours display
-        const dayTotals = document.querySelectorAll('.day-total');
-        dayTotals.forEach(total => {
-            total.textContent = '0.00'; // Reset totals to 0.00
+        document.querySelectorAll('.day-total').forEach(total => {
+            total.textContent = '0.00';
         });
-        totalHoursDisplay.textContent = '0.00'; // Reset total hours display
 
-        // Remove stored data from local storage
-        localStorage.removeItem('timeCalculatorData'); // Clear any saved data
+        totalHoursDisplay.textContent = '0.00';
+        localStorage.removeItem('timeCalculatorData');
     });
-
 });
 
-// Function to print the page
+// Print function
 function printPage() {
     window.print();
 }
