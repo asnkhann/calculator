@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
             totalHours += hoursWorked;
         });
 
-        totalHoursDisplay.textContent = totalHours.toFixed(2); // Display total hours
+        totalHoursDisplay.textContent = (Math.round(totalHours * 100) / 100).toFixed(2);  // Display total hours
     }
 
     function saveData() {
