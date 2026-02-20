@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =========================================
-       FIREBASE ACTIVE USER COUNTER (ADDED)
-    ========================================== *
+    /* =========================
+   FIREBASE ACTIVE USERS
+========================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuolr2k4C9HqV5NtwSRl2Qzixut7qfCvU",
@@ -21,6 +21,7 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 const usersRef = database.ref("activeUsers");
 
+// Prevent double registration
 let sessionId = sessionStorage.getItem("firebaseSessionId");
 
 if (!sessionId) {
@@ -32,15 +33,12 @@ if (!sessionId) {
     userRef.set(true);
 }
 
-usersRef.on("value", snapshot => {
+usersRef.on("value", (snapshot) => {
     const count = snapshot.numChildren();
-    document.getElementById("activeUsers").textContent = count;
+    const el = document.getElementById("activeUsers");
+    if (el) el.textContent = count;
 });
-
-    /* =========================================
-       YOUR ORIGINAL CODE STARTS HERE
-    ========================================== */
-
+    
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const tableBody = document.getElementById('timeTableBody');
     const calculateBtn = document.getElementById('calculateBtn');
@@ -331,6 +329,3 @@ usersRef.on("value", snapshot => {
 function printPage() {
     window.print();
 }
-
-
-
