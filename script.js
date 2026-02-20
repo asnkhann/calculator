@@ -21,18 +21,24 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 const usersRef = database.ref("activeUsers");
 
-// Prevent double registration
 let sessionId = sessionStorage.getItem("firebaseSessionId");
 
 if (!sessionId) {
     sessionId = Date.now() + "_" + Math.random().toString(36).substr(2, 9);
     sessionStorage.setItem("firebaseSessionId", sessionId);
-
-    const userRef = usersRef.child(sessionId);
-    userRef.onDisconnect().remove();
-    userRef.set(true);
 }
 
+const userRef = usersRef.child(sessionId);
+
+// 👇 Listen for connection state
+firebase.database().ref(".info/connected").on("value", (snapshot) => {
+    if (snapshot.val() === true) {
+        userRef.onDisconnect().remove();
+        userRef.set(true);
+    }
+});
+
+// 👇 Update counter live
 usersRef.on("value", (snapshot) => {
     const count = snapshot.numChildren();
     const el = document.getElementById("activeUsers");
@@ -329,3 +335,4 @@ usersRef.on("value", (snapshot) => {
 function printPage() {
     window.print();
 }
+
