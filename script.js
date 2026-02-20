@@ -2,11 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================================
        FIREBASE ACTIVE USER COUNTER (ADDED)
-    ========================================== */
-
-    /* =========================================
-   FIREBASE ACTIVE USER COUNTER (FIXED)
-========================================== */
+    ========================================== *
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuolr2k4C9HqV5NtwSRl2Qzixut7qfCvU",
@@ -25,17 +21,23 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 const usersRef = database.ref("activeUsers");
 
-// Create unique ID for this tab
-const sessionId = Date.now() + "_" + Math.random().toString(36).substr(2, 9);
-const userRef = usersRef.child(sessionId);
+// Check if this tab already has a session
+let sessionId = sessionStorage.getItem("firebaseSessionId");
 
-// Remove on disconnect
-userRef.onDisconnect().remove();
+if (!sessionId) {
+    sessionId = Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+    sessionStorage.setItem("firebaseSessionId", sessionId);
 
-// Add user
-userRef.set(true);
+    const userRef = usersRef.child(sessionId);
 
-// Listen for changes
+    // Remove when tab closes
+    userRef.onDisconnect().remove();
+
+    // Register user
+    userRef.set(true);
+}
+
+// Listen for active users
 usersRef.on("value", (snapshot) => {
     const count = snapshot.numChildren();
     const element = document.getElementById("activeUsers");
@@ -43,7 +45,6 @@ usersRef.on("value", (snapshot) => {
         element.textContent = count;
     }
 });
-
     /* =========================================
        YOUR ORIGINAL CODE STARTS HERE
     ========================================== */
@@ -338,4 +339,5 @@ usersRef.on("value", (snapshot) => {
 function printPage() {
     window.print();
 }
+
 
