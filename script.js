@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
    FIREBASE ACTIVE USERS
 ========================= */
 
+/* =========================
+   FIREBASE ACTIVE USERS
+========================= */
+
 const firebaseConfig = {
   apiKey: "AIzaSyDuolr2k4C9HqV5NtwSRl2Qzixut7qfCvU",
   authDomain: "weekly-hours-calculator.firebaseapp.com",
@@ -14,6 +18,7 @@ const firebaseConfig = {
   appId: "1:321502142034:web:555c17ca7e2690f033c98b"
 };
 
+// Initialize Firebase only once
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -21,6 +26,7 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 const usersRef = database.ref("activeUsers");
 
+// Get or create session ID per tab
 let sessionId = sessionStorage.getItem("firebaseSessionId");
 
 if (!sessionId) {
@@ -30,19 +36,21 @@ if (!sessionId) {
 
 const userRef = usersRef.child(sessionId);
 
-// 👇 Listen for connection state
+// Listen for connection state changes
 firebase.database().ref(".info/connected").on("value", (snapshot) => {
     if (snapshot.val() === true) {
-        userRef.onDisconnect().remove();
-        userRef.set(true);
+        userRef.onDisconnect().remove();  // Remove when user disconnects
+        userRef.set(true);                // Add user when connected
     }
 });
 
-// 👇 Update counter live
+// Update active user count in real time
 usersRef.on("value", (snapshot) => {
     const count = snapshot.numChildren();
-    const el = document.getElementById("activeUsers");
-    if (el) el.textContent = count;
+    const element = document.getElementById("activeUsers");
+    if (element) {
+        element.textContent = count;
+    }
 });
     
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -335,4 +343,5 @@ usersRef.on("value", (snapshot) => {
 function printPage() {
     window.print();
 }
+
 
