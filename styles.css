@@ -1,3 +1,15 @@
+/* Visitor Counter */
+#visitorCounter {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -259,4 +271,5 @@ button:hover {
     margin-top: 20px;
     font-size: 14px;
 }
+
 
