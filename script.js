@@ -21,7 +21,6 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 const usersRef = database.ref("activeUsers");
 
-// Check if this tab already has a session
 let sessionId = sessionStorage.getItem("firebaseSessionId");
 
 if (!sessionId) {
@@ -29,22 +28,15 @@ if (!sessionId) {
     sessionStorage.setItem("firebaseSessionId", sessionId);
 
     const userRef = usersRef.child(sessionId);
-
-    // Remove when tab closes
     userRef.onDisconnect().remove();
-
-    // Register user
     userRef.set(true);
 }
 
-// Listen for active users
-usersRef.on("value", (snapshot) => {
+usersRef.on("value", snapshot => {
     const count = snapshot.numChildren();
-    const element = document.getElementById("activeUsers");
-    if (element) {
-        element.textContent = count;
-    }
+    document.getElementById("activeUsers").textContent = count;
 });
+
     /* =========================================
        YOUR ORIGINAL CODE STARTS HERE
     ========================================== */
@@ -339,5 +331,6 @@ usersRef.on("value", (snapshot) => {
 function printPage() {
     window.print();
 }
+
 
 
