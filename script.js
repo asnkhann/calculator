@@ -1,4 +1,42 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    /* =========================================
+       FIREBASE ACTIVE USER COUNTER (ADDED)
+    ========================================== */
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDuolr2k4C9HqV5NtwSRl2Qzixut7qfCvU",
+      authDomain: "weekly-hours-calculator.firebaseapp.com",
+      databaseURL: "https://weekly-hours-calculator-default-rtdb.firebaseio.com",
+      projectId: "weekly-hours-calculator",
+      storageBucket: "weekly-hours-calculator.firebasestorage.app",
+      messagingSenderId: "321502142034",
+      appId: "1:321502142034:web:555c17ca7e2690f033c98b"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    const database = firebase.database();
+    const usersRef = database.ref("activeUsers");
+    const userRef = usersRef.push();
+
+    userRef.onDisconnect().remove();
+    userRef.set(true);
+
+    usersRef.on("value", (snapshot) => {
+        const count = snapshot.numChildren();
+        const element = document.getElementById("activeUsers");
+        if (element) {
+            element.textContent = count;
+        }
+    });
+
+    /* =========================================
+       YOUR ORIGINAL CODE STARTS HERE
+    ========================================== */
+
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const tableBody = document.getElementById('timeTableBody');
     const calculateBtn = document.getElementById('calculateBtn');
