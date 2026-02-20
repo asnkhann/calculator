@@ -6,7 +6,7 @@
     <title>Weekly Hours Calculator</title>
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Firebase -->
+    <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
 </head>
@@ -20,56 +20,50 @@
 <div id="messageContainer" class="message-container" style="display: none;"></div>
 
 <div id="mainContainer">
-    <!-- Header Section -->
     <div class="header-section">
         <h2>Weekly Hours Calculator</h2>
     </div>
 
-    <!-- Flex Container for Name, Date, and Rounding -->
     <div class="flex-container">
-        <!-- Name and Date Section -->
         <div class="input-section">
             <div class="input-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name">
+                <input type="text" id="name">
             </div>
             <div class="input-group">
                 <label for="dates">Dates:</label>
-                <input type="text" id="dates" name="dates">
+                <input type="text" id="dates">
             </div>
         </div>
 
-        <!-- Rounding Toggle Section -->
         <div class="toggle-container">
-            <label for="roundToggle">Nearest Quater:</label>
+            <label for="roundToggle">Nearest Quarter:</label>
             <button id="roundToggle">Disabled</button>
         </div>
     </div>
 
-    <!-- Conversion Calculator Section -->
     <div id="hoursCalculator">
         <div class="conversion-calculator">
             <div>
-                <label for="decimalHours">Decimal Hours</label>
-                <input type="number" id="decimalHours" placeholder="0.0" min="0" step="0.1">
+                <label>Decimal Hours</label>
+                <input type="number" id="decimalHours" step="0.1">
             </div>
-            <div class="equal-sign">=</div>
+            <div>=</div>
             <div>
-                <label for="hours">Hours</label>
-                <input type="number" id="hours" placeholder="0" min="0">
+                <label>Hours</label>
+                <input type="number" id="hours">
             </div>
-            <div class="equal-sign">:</div>
+            <div>:</div>
             <div>
-                <label for="minutes">Minutes</label>
-                <input type="number" id="minutes" placeholder="0" min="0" max="59">
+                <label>Minutes</label>
+                <input type="number" id="minutes" max="59">
             </div>
         </div>
-        <div style="text-align: center; margin-top: 10px;">
+        <div style="text-align:center;margin-top:10px;">
             <button id="swapButton">Swap</button>
         </div>
     </div>
 
-    <!-- Hours Table Section -->
     <table id="timeTable">
         <thead>
             <tr>
@@ -80,65 +74,27 @@
                 <th>Total</th>
             </tr>
         </thead>
-        <tbody id="timeTableBody">
-        </tbody>
+        <tbody id="timeTableBody"></tbody>
         <tfoot>
             <tr>
-                <td colspan="4" style="text-align: right;"><strong>Total Hours:</strong></td>
+                <td colspan="4" style="text-align:right;"><strong>Total Hours:</strong></td>
                 <td><span id="totalHours">0.00</span></td>
             </tr>
         </tfoot>
     </table>
 
-    <!-- Control Buttons Section -->
     <div class="controls">
         <button id="calculateBtn">Calculate</button>
         <button id="clearBtn">Clear All</button>
         <button id="printBtn" onclick="printPage()">PRINT</button>
     </div>
 
-    <!-- Buy Me a Coffee Section -->
-    <div id="buyMeCoffee">
-        <a href="https://www.buymeacoffee.com/asnkhan" target="_blank">
-            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 50px; width: 180px;">
-        </a>
-    </div>
-
-    <!-- Footer Section -->
     <div class="footer">
         Developed by: AKGROUPS<br>
-        <span style="font-weight: bold;">&copy;</span> 2024 Akgroups IT Solutions. All rights reserved.
+        © 2024 Akgroups IT Solutions
     </div>
 </div>
 
 <script src="script.js"></script>
-
-<!-- Firebase Visitor Counter Script -->
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDuolr2k4C9HqV5NtwSRl2Qzixut7qfCvU",
-  authDomain: "weekly-hours-calculator.firebaseapp.com",
-  databaseURL: "https://weekly-hours-calculator-default-rtdb.firebaseio.com",
-  projectId: "weekly-hours-calculator",
-  storageBucket: "weekly-hours-calculator.firebasestorage.app",
-  messagingSenderId: "321502142034",
-  appId: "1:321502142034:web:555c17ca7e2690f033c98b"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const database = firebase.database();
-const usersRef = database.ref("activeUsers");
-const userRef = usersRef.push();
-
-userRef.onDisconnect().remove();
-userRef.set(true);
-
-usersRef.on("value", (snapshot) => {
-    const count = snapshot.numChildren();
-    document.getElementById("activeUsers").textContent = count;
-});
-</script>
-
 </body>
 </html>
