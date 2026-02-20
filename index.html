@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Hours Calculator</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
 </head>
 <body>
+
+<!-- Visitor Counter -->
+<div id="visitorCounter">
+    👥 Active Users: <span id="activeUsers">0</span>
+</div>
 
 <div id="messageContainer" class="message-container" style="display: none;"></div>
 
@@ -72,7 +81,6 @@
             </tr>
         </thead>
         <tbody id="timeTableBody">
-            <!-- Days will be generated dynamically by script.js -->
         </tbody>
         <tfoot>
             <tr>
@@ -104,5 +112,33 @@
 </div>
 
 <script src="script.js"></script>
+
+<!-- Firebase Visitor Counter Script -->
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDuolr2k4C9HqV5NtwSRl2Qzixut7qfCvU",
+  authDomain: "weekly-hours-calculator.firebaseapp.com",
+  databaseURL: "https://weekly-hours-calculator-default-rtdb.firebaseio.com",
+  projectId: "weekly-hours-calculator",
+  storageBucket: "weekly-hours-calculator.firebasestorage.app",
+  messagingSenderId: "321502142034",
+  appId: "1:321502142034:web:555c17ca7e2690f033c98b"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+const usersRef = database.ref("activeUsers");
+const userRef = usersRef.push();
+
+userRef.onDisconnect().remove();
+userRef.set(true);
+
+usersRef.on("value", (snapshot) => {
+    const count = snapshot.numChildren();
+    document.getElementById("activeUsers").textContent = count;
+});
+</script>
+
 </body>
 </html>
